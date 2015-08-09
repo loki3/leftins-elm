@@ -24,6 +24,10 @@ add a b base =
       carrysum = map2 (+) rawsum carries
     in map (\x -> if x >= base then x-base else x) carrysum
 
+-----------------
+-- conversion routines
+-----------------
+
 -- convert a digit (0-9) or letter (a-z -> 10-36) to an int
 charToInt : Char -> Int
 charToInt c =
@@ -48,7 +52,7 @@ leftinToString l =
   reverse (fromList (map intToChar l))
 
 -----------------
--- model
+-- model & actions
 -----------------
 
 type alias Model =
@@ -63,15 +67,15 @@ type Action
   | Add
   | Multiply
 
+model : Model
+model = { num1 = [ 7, 3, 6 ], num2 = [ 5, 9, 6  ], result = [] }
+
 -----------------
 -- main
 -----------------
 
 main =
   StartApp.start { model = model, view = view, update = update }
-
-model : Model
-model = { num1 = [ 1 ], num2 = [ 2 ], result = [] }
 
 view address model =
   div []
@@ -89,6 +93,7 @@ view address model =
       , input [id "in-b", on "input" targetValue (Signal.message address << Update2)] []
       ]
     , div [] [ text (toString model) ]
+    , div [] [ text (leftinToString model.result) ]
     ]
 
 update action model =
