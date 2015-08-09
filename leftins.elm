@@ -5,8 +5,8 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, targetValue)
 import StartApp
 import List exposing (map, map2)
-import String exposing (toList, reverse)
-import Char exposing (toCode, isDigit)
+import String exposing (toList, fromList, reverse)
+import Char exposing (toCode, fromCode, isDigit)
 
 
 -----------------
@@ -36,6 +36,16 @@ stringToLeftin : String -> Leftin
 stringToLeftin s =
   let sList = toList (reverse s)
     in map (\c -> charToInt c) sList
+
+-- convert an int (0-31) to a digit (0-9) or letter (a-z)
+intToChar : Int -> Char
+intToChar i =
+  fromCode (i + (if (i < 10) then toCode '0' else -10 + toCode 'a'))
+
+-- convert a list of ints representing a leftin to a string
+leftinToString : Leftin -> String
+leftinToString l =
+  reverse (fromList (map intToChar l))
 
 -----------------
 -- model
