@@ -85,12 +85,12 @@ view address model =
     , div []
       [
         label [] [ text "a: ..." ]
-      , input [ id "in-a", on "input" targetValue (Signal.message address << Update1) ] []
+      , input [ on "input" targetValue (Signal.message address << Update1) ] []
       ]
     , div []
       [
         label [] [ text "b: ..." ]
-      , input [id "in-b", on "input" targetValue (Signal.message address << Update2)] []
+      , input [ on "input" targetValue (Signal.message address << Update2) ] []
       ]
     , div [] [ text (toString model) ]
     , div [] [ text (leftinToString model.result) ]
