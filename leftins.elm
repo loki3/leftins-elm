@@ -58,7 +58,7 @@ intToChar i =
 -- convert a list of ints representing a leftin to a string
 leftinToString : Leftin -> String
 leftinToString l =
-  reverse (fromList (map intToChar l))
+  map intToChar l |> fromList |> reverse
 
 -----------------
 -- model & actions
@@ -67,6 +67,7 @@ leftinToString l =
 type alias Model =
   { num1 : Leftin
   , num2 : Leftin
+  , base : Int
   , result : Leftin
   }
 
@@ -77,7 +78,12 @@ type Action
   | Multiply
 
 model : Model
-model = { num1 = [ 7, 3, 6 ], num2 = [ 5, 9, 6  ], result = [] }
+model =
+  { num1 = [ 7, 3, 6 ]
+  , num2 = [ 5, 9, 6  ]
+  , base = 10
+  , result = []
+  }
 
 -----------------
 -- main
@@ -109,4 +115,4 @@ update action model =
   case action of
     Update1 str -> { model | num1 <- stringToLeftin str }
     Update2 str -> { model | num2 <- stringToLeftin str }
-    Add -> { model | result <- add model.num1 model.num2 10 }
+    Add -> { model | result <- add model.num1 model.num2 model.base }
