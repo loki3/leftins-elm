@@ -1,3 +1,9 @@
+-----------------
+-- Leftins routines & UI
+-- Scott Sherman
+-- https://github.com/loki3/leftins-elm
+-----------------
+
 module Leftins where
 
 import Html exposing (..)
