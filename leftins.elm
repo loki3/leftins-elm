@@ -17,12 +17,21 @@ import Char exposing (toCode, fromCode, isDigit)
 type alias Leftin = List Int
 
 -- add two leftins in a given base
+addRecurse : Leftin -> Leftin -> Int -> Int -> Leftin
+addRecurse xs ys base carry =
+  case xs of
+    x::xend ->
+      case ys of
+        y::yend ->
+          let sum = x + y + carry
+              newcarry = if sum >= base then 1 else 0
+              digit = if sum >= base then (sum - base) else sum
+          in digit :: (addRecurse xend yend base newcarry)
+        [] -> []
+    [] -> []
 add : Leftin -> Leftin -> Int -> Leftin
 add a b base =
-  let rawsum = map2 (+) a b
-      carries = 0 :: map (\x -> if x >= base then 1 else 0) rawsum
-      carrysum = map2 (+) rawsum carries
-    in map (\x -> if x >= base then x-base else x) carrysum
+  addRecurse a b base 0
 
 -----------------
 -- conversion routines

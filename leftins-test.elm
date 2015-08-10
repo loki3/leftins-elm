@@ -18,6 +18,7 @@ addTest = suite "add"
   , defaultTest (assertEqual [ 3, 2 ] (add [ 1, 5 ] [ 2, 1 ] 4))
   , defaultTest (assertEqual [ 3, 6 ] (add [ 1, 5 ] [ 2, 1, 2, 2 ] 10))
   , defaultTest (assertEqual [ 3, 2, 2 ] (add [ 1, 5, 1 ] [ 2, 1, 0 ] 4))
+  , defaultTest (assertEqual [ 2, 0, 8, 5 ] (add [ 4, 3, 2, 1 ] [ 8, 6, 5, 4 ] 10))
   ]
 
 -----------------
