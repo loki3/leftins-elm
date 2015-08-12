@@ -22,22 +22,23 @@ import Char exposing (toCode, fromCode, isDigit)
 -- list of digits in a leftin, 1st item represents right-most digit
 type alias Leftin = List Int
 
--- add two leftins in a given base
-addRecurse : Leftin -> Leftin -> Int -> Int -> Leftin
-addRecurse xs ys base carry =
+-- take a list of numbers & reduce them to valid
+-- digits in the given base, applying carries
+normalize : Leftin -> Int -> Int -> Leftin
+normalize xs base carry =
   case xs of
     x::xend ->
-      case ys of
-        y::yend ->
-          let sum = x + y + carry
-              newcarry = if sum >= base then 1 else 0
-              digit = if sum >= base then (sum - base) else sum
-          in digit :: (addRecurse xend yend base newcarry)
-        [] -> []
+      let sum = x + carry
+          newcarry = sum // base
+          digit = sum % base
+      in digit :: (normalize xend base newcarry)
     [] -> []
+
+-- add two leftins in a given base
 add : Leftin -> Leftin -> Int -> Leftin
 add a b base =
-  addRecurse a b base 0
+  let rawsum = map2 (+) a b
+  in normalize rawsum base 0
 
 -----------------
 -- conversion routines
