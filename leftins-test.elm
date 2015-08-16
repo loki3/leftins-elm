@@ -41,6 +41,17 @@ multiplyTest = suite "multiply"
   -- , defaultTest (assertEqual [ 4,8,9 ] (multiply 10 [3, 6, 9] [8, 6, 5, 4]))
   ]
 
+powerTest = suite "power"
+  [ defaultTest (assertEqual [ 1 ] (power 10 [ 2 ] 0))
+  , defaultTest (assertEqual [ 2 ] (power 10 [ 2 ] 1))
+  , defaultTest (assertEqual [ 8 ] (power 10 [ 2 ] 3))
+  , defaultTest (assertEqual [ 6 ] (power 10 [ 2 ] 4))
+  , defaultTest (assertEqual [ 1 ] (power 3 [ 2 ] 2))
+  , defaultTest (assertEqual [ 2 ] (power 3 [ 2 ] 3))
+  , defaultTest (assertEqual [ 7, 0, 0, 0 ] (power 10 [ 3, 4, 5, 1 ] 3))
+  , defaultTest (assertEqual [ 6, 3, 1 ] (power 10 [ 4, 3, 8 ] 4))
+  ]
+
 -----------------
 -- conversion routines
 -----------------
@@ -83,6 +94,7 @@ tests = suite "Leftins Test Suite"
   [ normalizeTest
   , addTest
   , multiplyTest
+  , powerTest
   , charToIntTest
   , stringToLeftinTest
   , intToCharTest

@@ -44,7 +44,7 @@ add base a b =
 -- digit from the first against the second.
 -- 'prefix' is a series of 0s added to each product to
 -- simulate shifting the position of the digit we're multiplying.
--- note that the results aren't normalized to a base.
+-- unnormalized
 multiplyRecurse : Leftin -> Leftin -> Leftin -> Leftin
 multiplyRecurse xs b prefix =
   case xs of
@@ -58,6 +58,20 @@ multiply : Int -> Leftin -> Leftin -> Leftin
 multiply base a b =
   let rawProduct = multiplyRecurse a b []
   in normalize rawProduct base 0
+
+-- a^n recursively, stopping when n decreases to 1
+-- unnormalized
+powerRecurse : Leftin -> Leftin -> Int -> Leftin
+powerRecurse a current n =
+  case n of
+    0 -> [1]
+    1 -> a
+    _ -> multiplyRecurse a (powerRecurse a current (n-1)) []
+-- a^n in the given base
+power : Int -> Leftin -> Int -> Leftin
+power base a n =
+  let rawPower = powerRecurse a a n
+  in normalize rawPower base 0
 
 -----------------
 -- conversion routines
