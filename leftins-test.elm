@@ -30,6 +30,17 @@ addTest = suite "add"
   , defaultTest (assertEqual [ 2, 0, 8, 5 ] (add 10 [ 4, 3, 2, 1 ] [ 8, 6, 5, 4 ]))
   ]
 
+multiplyTest = suite "multiply"
+  [ defaultTest (assertEqual [ 2 ] (multiply 10 [ 1 ] [ 2 ]))
+  , defaultTest (assertEqual [ 2 ] (multiply 3 [ 1 ] [ 2 ]))
+  , defaultTest (assertEqual [ 4 ] (multiply 10 [ 9 ] [ 6 ]))
+  , defaultTest (assertEqual [ 2, 2 ] (multiply 3 [ 1, 2 ] [ 2, 1 ]))
+  , defaultTest (assertEqual [ 4,8,9,4 ] (multiply 10 [3, 6, 9, 2] [8, 6, 5, 4]))
+  , defaultTest (assertEqual [ 4,8,9 ] (multiply 10 [3, 6, 9, 2] [8, 6, 5]))
+  -- currently it only properly truncates based on the second argment
+  -- , defaultTest (assertEqual [ 4,8,9 ] (multiply 10 [3, 6, 9] [8, 6, 5, 4]))
+  ]
+
 -----------------
 -- conversion routines
 -----------------
@@ -71,6 +82,7 @@ leftinToStringTest = suite "leftinToString"
 tests = suite "Leftins Test Suite"
   [ normalizeTest
   , addTest
+  , multiplyTest
   , charToIntTest
   , stringToLeftinTest
   , intToCharTest

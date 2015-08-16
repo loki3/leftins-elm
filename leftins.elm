@@ -10,7 +10,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, targetValue)
 import StartApp
-import List exposing (map, map2)
+import List exposing (map, map2, append)
 import String exposing (toList, fromList, reverse)
 import Char exposing (toCode, fromCode, isDigit)
 
@@ -39,6 +39,25 @@ add : Int -> Leftin -> Leftin -> Leftin
 add base a b =
   let rawsum = map2 (+) a b
   in normalize rawsum base 0
+
+-- multiply two leftins together, recursively multiplying each
+-- digit from the first against the second.
+-- 'prefix' is a series of 0s added to each product to
+-- simulate shifting the position of the digit we're multiplying.
+-- note that the results aren't normalized to a base.
+productsRecurse : Leftin -> Leftin -> Leftin -> Leftin
+productsRecurse xs b prefix =
+  case xs of
+    x::[] -> map ((*) x) b |> append prefix
+    x::xend ->
+        let digitProduct = map ((*) x) b |> append prefix
+            recurse = productsRecurse xend b (0 :: prefix)
+        in map2 (+) digitProduct recurse
+-- multiply two leftins in a given base
+multiply : Int -> Leftin -> Leftin -> Leftin
+multiply base a b =
+  let rawProduct = productsRecurse a b []
+  in normalize rawProduct base 0
 
 -----------------
 -- conversion routines
