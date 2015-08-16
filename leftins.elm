@@ -45,18 +45,18 @@ add base a b =
 -- 'prefix' is a series of 0s added to each product to
 -- simulate shifting the position of the digit we're multiplying.
 -- note that the results aren't normalized to a base.
-productsRecurse : Leftin -> Leftin -> Leftin -> Leftin
-productsRecurse xs b prefix =
+multiplyRecurse : Leftin -> Leftin -> Leftin -> Leftin
+multiplyRecurse xs b prefix =
   case xs of
     x::[] -> map ((*) x) b |> append prefix
     x::xend ->
         let digitProduct = map ((*) x) b |> append prefix
-            recurse = productsRecurse xend b (0 :: prefix)
+            recurse = multiplyRecurse xend b (0 :: prefix)
         in map2 (+) digitProduct recurse
 -- multiply two leftins in a given base
 multiply : Int -> Leftin -> Leftin -> Leftin
 multiply base a b =
-  let rawProduct = productsRecurse a b []
+  let rawProduct = multiplyRecurse a b []
   in normalize rawProduct base 0
 
 -----------------
