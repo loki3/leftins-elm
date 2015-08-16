@@ -86,6 +86,12 @@ leftinToStringTest = suite "leftinToString"
   , defaultTest (assertEqual "a2s" (leftinToString [ 28, 2, 10 ]))
   ]
 
+leftinToIntTest = suite "leftinToInt"
+  [ defaultTest (assertEqual 1 (leftinToInt 10 [ 1 ]))
+  , defaultTest (assertEqual 179 (leftinToInt 16 [ 3, 11 ]))
+  , defaultTest (assertEqual 13060 (leftinToInt 36 [ 28, 2, 10 ]))
+  ]
+
 -----------------
 -- overall test suite
 -----------------
@@ -99,6 +105,7 @@ tests = suite "Leftins Test Suite"
   , stringToLeftinTest
   , intToCharTest
   , leftinToStringTest
+  , leftinToIntTest
   ]
 
 main =

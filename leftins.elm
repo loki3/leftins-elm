@@ -10,7 +10,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, targetValue)
 import StartApp
-import List exposing (map, map2, append)
+import List exposing (map, map2, append, indexedMap, foldl)
 import String exposing (toList, fromList, reverse)
 import Char exposing (toCode, fromCode, isDigit)
 
@@ -100,6 +100,13 @@ leftinToString : Leftin -> String
 leftinToString l =
   map intToChar l |> fromList |> reverse
 
+calc base position digit = digit * base ^ position
+
+-- convert from a list of ints representing a leftin to an int
+leftinToInt : Int -> Leftin -> Int
+leftinToInt base a =
+  indexedMap (calc base) a |> foldl (+) 0
+
 -----------------
 -- model & actions
 -----------------
@@ -116,6 +123,7 @@ type Action
   | Update2 String
   | Add
   | Multiply
+  | Power
 
 model : Model
 model =
@@ -137,6 +145,7 @@ view address model =
     [
       button [ onClick address Add ] [ text "a + b" ]
     , button [ onClick address Multiply ] [ text "a * b" ]
+    , button [ onClick address Power ] [ text "a ^ b" ]
     , div []
       [
         label [] [ text "a: ..." ]
@@ -157,3 +166,4 @@ update action model =
     Update2 str -> { model | num2 <- stringToLeftin str }
     Add -> { model | result <- add model.base model.num1 model.num2 }
     Multiply -> { model | result <- multiply model.base model.num1 model.num2 }
+    Power -> { model | result <- power model.base model.num1 (leftinToInt model.base model.num2) }
