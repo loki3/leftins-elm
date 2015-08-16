@@ -35,8 +35,8 @@ normalize xs base carry =
     [] -> []
 
 -- add two leftins in a given base
-add : Leftin -> Leftin -> Int -> Leftin
-add a b base =
+add : Int -> Leftin -> Leftin -> Leftin
+add base a b =
   let rawsum = map2 (+) a b
   in normalize rawsum base 0
 
@@ -122,4 +122,4 @@ update action model =
   case action of
     Update1 str -> { model | num1 <- stringToLeftin str }
     Update2 str -> { model | num2 <- stringToLeftin str }
-    Add -> { model | result <- add model.num1 model.num2 model.base }
+    Add -> { model | result <- add model.base model.num1 model.num2 }
