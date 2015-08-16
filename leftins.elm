@@ -142,3 +142,4 @@ update action model =
     Update1 str -> { model | num1 <- stringToLeftin str }
     Update2 str -> { model | num2 <- stringToLeftin str }
     Add -> { model | result <- add model.base model.num1 model.num2 }
+    Multiply -> { model | result <- multiply model.base model.num1 model.num2 }
