@@ -116,10 +116,12 @@ type alias Model =
   , num2 : Leftin
   , base : Int
   , result : Leftin
+  , description : String
   }
 
 type Action
-  = Update1 String
+  = None
+  | Update1 String
   | Update2 String
   | Add
   | Multiply
@@ -131,7 +133,20 @@ model =
   , num2 = [ 5, 9, 6  ]
   , base = 10
   , result = []
+  , description = ""
   }
+
+-- describe the operation and its results
+describe : Action -> Model -> Leftin -> String
+describe a m result =
+  let n1 = leftinToString m.num1
+      n2 = leftinToString m.num2
+      r = leftinToString result
+  in case a of
+    None -> ""
+    Add -> n1 ++ " + " ++ n2 ++ " = " ++ r
+    Multiply -> n1 ++ " * " ++ n2 ++ " = " ++ r
+    Power -> n1 ++ " ^ " ++ n2 ++ " = " ++ r
 
 -----------------
 -- main
@@ -156,14 +171,23 @@ view address model =
         label [] [ text "b: ..." ]
       , input [ on "input" targetValue (Signal.message address << Update2) ] []
       ]
+    , div [] [ text model.description ]
     , div [] [ text (toString model) ]
-    , div [] [ text (leftinToString model.result) ]
     ]
 
 update action model =
   case action of
     Update1 str -> { model | num1 <- stringToLeftin str }
     Update2 str -> { model | num2 <- stringToLeftin str }
-    Add -> { model | result <- add model.base model.num1 model.num2 }
-    Multiply -> { model | result <- multiply model.base model.num1 model.num2 }
-    Power -> { model | result <- power model.base model.num1 (leftinToInt model.base model.num2) }
+    Add ->
+      let answer = add model.base model.num1 model.num2
+      in { model | result <- answer
+                 , description <- describe action model answer }
+    Multiply ->
+      let answer = multiply model.base model.num1 model.num2
+      in  { model | result <- answer
+                 , description <- describe action model answer }
+    Power ->
+      let answer = power model.base model.num1 (leftinToInt model.base model.num2)
+      in { model | result <- answer
+                 , description <- describe action model answer }
