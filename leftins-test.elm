@@ -12,12 +12,12 @@ import Leftins exposing (..)
 -----------------
 
 normalizeTest = suite "normalize"
-  [ defaultTest (assertEqual [ 1 ] (normalize [ 1 ] 10 0))
-  , defaultTest (assertEqual [ 1 ] (normalize [ 11 ] 10 0))
-  , defaultTest (assertEqual [ 8, 2 ] (normalize [ 18, 1 ] 10 0))
-  , defaultTest (assertEqual [ 1, 3 ] (normalize [ 18, 1 ] 10 3))
-  , defaultTest (assertEqual [ 1, 2, 2 ] (normalize [ 11, 11, 11 ] 10 0))
-  , defaultTest (assertEqual [ 2, 2, 2 ] (normalize [ 4, 4, 4 ] 3 1))
+  [ defaultTest (assertEqual [ 1 ] (normalize 10 [ 1 ] 0))
+  , defaultTest (assertEqual [ 1 ] (normalize 10 [ 11 ] 0))
+  , defaultTest (assertEqual [ 8, 2 ] (normalize 10 [ 18, 1 ] 0))
+  , defaultTest (assertEqual [ 1, 3 ] (normalize 10 [ 18, 1 ] 3))
+  , defaultTest (assertEqual [ 1, 2, 2 ] (normalize 10 [ 11, 11, 11 ] 0))
+  , defaultTest (assertEqual [ 2, 2, 2 ] (normalize 3 [ 4, 4, 4 ] 1))
   ]
 
 addTest = suite "add"

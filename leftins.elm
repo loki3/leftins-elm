@@ -24,21 +24,21 @@ type alias Leftin = List Int
 
 -- take a list of numbers & reduce them to valid
 -- digits in the given base, applying carries
-normalize : Leftin -> Int -> Int -> Leftin
-normalize xs base carry =
+normalize : Int -> Leftin -> Int -> Leftin
+normalize base xs carry =
   case xs of
     x::xend ->
       let sum = x + carry
           newcarry = sum // base
           digit = sum % base
-      in digit :: (normalize xend base newcarry)
+      in digit :: (normalize base xend newcarry)
     [] -> []
 
 -- add two leftins in a given base
 add : Int -> Leftin -> Leftin -> Leftin
 add base a b =
   let rawsum = map2 (+) a b
-  in normalize rawsum base 0
+  in normalize base rawsum 0
 
 -- multiply two leftins together, recursively multiplying each
 -- digit from the first against the second.
@@ -57,7 +57,7 @@ multiplyRecurse xs b prefix =
 multiply : Int -> Leftin -> Leftin -> Leftin
 multiply base a b =
   let rawProduct = multiplyRecurse a b []
-  in normalize rawProduct base 0
+  in normalize base rawProduct 0
 
 -- a^n recursively, stopping when n decreases to 1
 -- unnormalized
@@ -71,7 +71,7 @@ powerRecurse a current n =
 power : Int -> Leftin -> Int -> Leftin
 power base a n =
   let rawPower = powerRecurse a a n
-  in normalize rawPower base 0
+  in normalize base rawPower 0
 
 -----------------
 -- conversion routines
@@ -141,12 +141,13 @@ describe : Action -> Model -> Leftin -> String
 describe a m result =
   let n1 = leftinToString m.num1
       n2 = leftinToString m.num2
-      r = leftinToString result
+      r = " = " ++ leftinToString result
+      b = "  (base " ++ toString m.base ++ ")"
   in case a of
     None -> ""
-    Add -> n1 ++ " + " ++ n2 ++ " = " ++ r
-    Multiply -> n1 ++ " * " ++ n2 ++ " = " ++ r
-    Power -> n1 ++ " ^ " ++ n2 ++ " = " ++ r
+    Add -> n1 ++ " + " ++ n2 ++ r ++ b
+    Multiply -> n1 ++ " * " ++ n2 ++ r ++ b
+    Power -> n1 ++ " ^ " ++ n2 ++ r ++ b
 
 -----------------
 -- main
