@@ -56,32 +56,26 @@ powerTest = suite "power"
 -- conversion routines
 -----------------
 
-charToIntTest = suite "charToInt"
-  [ defaultTest (assertEqual 0 (charToInt '0'))
-  , defaultTest (assertEqual 4 (charToInt '4'))
-  , defaultTest (assertEqual 9 (charToInt '9'))
-  , defaultTest (assertEqual 10 (charToInt 'a'))
-  , defaultTest (assertEqual 28 (charToInt 's'))
-  , defaultTest (assertEqual 35 (charToInt 'z'))
-  ]
-
 stringToLeftinTest = suite "stringToLeftinTest"
-  [ defaultTest (assertEqual [ 1 ] (stringToLeftin "1"))
+  [ defaultTest (assertEqual [ 0 ] (stringToLeftin "0"))
+  , defaultTest (assertEqual [ 4 ] (stringToLeftin "4"))
+  , defaultTest (assertEqual [ 9 ] (stringToLeftin "9"))
+  , defaultTest (assertEqual [ 10 ] (stringToLeftin "a"))
+  , defaultTest (assertEqual [ 28 ] (stringToLeftin "s"))
+  , defaultTest (assertEqual [ 35 ] (stringToLeftin "z"))
+  , defaultTest (assertEqual [ 1 ] (stringToLeftin "1"))
   , defaultTest (assertEqual [ 3, 11 ] (stringToLeftin "b3"))
   , defaultTest (assertEqual [ 28, 2, 10 ] (stringToLeftin "a2s"))
   ]
 
-intToCharTest = suite "intToChar"
-  [ defaultTest (assertEqual '0' (intToChar 0))
-  , defaultTest (assertEqual '4' (intToChar 4))
-  , defaultTest (assertEqual '9' (intToChar 9))
-  , defaultTest (assertEqual 'a' (intToChar 10))
-  , defaultTest (assertEqual 's' (intToChar 28))
-  , defaultTest (assertEqual 'z' (intToChar 35))
-  ]
-
 leftinToStringTest = suite "leftinToString"
-  [ defaultTest (assertEqual "1" (leftinToString [ 1 ]))
+  [ defaultTest (assertEqual "0" (leftinToString [ 0 ]))
+  , defaultTest (assertEqual "4" (leftinToString [ 4 ]))
+  , defaultTest (assertEqual "9" (leftinToString [ 9 ]))
+  , defaultTest (assertEqual "a" (leftinToString [ 10 ]))
+  , defaultTest (assertEqual "s" (leftinToString [ 28 ]))
+  , defaultTest (assertEqual "z" (leftinToString [ 35 ]))
+  , defaultTest (assertEqual "1" (leftinToString [ 1 ]))
   , defaultTest (assertEqual "b3" (leftinToString [ 3, 11 ]))
   , defaultTest (assertEqual "a2s" (leftinToString [ 28, 2, 10 ]))
   ]
@@ -101,9 +95,7 @@ tests = suite "Leftins Test Suite"
   , addTest
   , multiplyTest
   , powerTest
-  , charToIntTest
   , stringToLeftinTest
-  , intToCharTest
   , leftinToStringTest
   , leftinToIntTest
   ]

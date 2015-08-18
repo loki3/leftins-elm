@@ -6,12 +6,8 @@
 
 module Leftins
   ( Leftin
-  , add
-  , multiply
-  , power
-  , stringToLeftin
-  , leftinToString
-  , leftinToInt
+  , normalize, add, multiply, power
+  , stringToLeftin, leftinToString, leftinToInt
   ) where
 
 import List exposing (map, map2, append, indexedMap, foldl)
