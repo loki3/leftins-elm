@@ -4,7 +4,15 @@
 -- https://github.com/loki3/leftins-elm
 -----------------
 
-module Leftins where
+module Leftins
+  ( Leftin
+  , add
+  , multiply
+  , power
+  , stringToLeftin
+  , leftinToString
+  , leftinToInt
+  ) where
 
 import List exposing (map, map2, append, indexedMap, foldl)
 import String exposing (toList, fromList, reverse)
