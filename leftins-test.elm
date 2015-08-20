@@ -86,6 +86,11 @@ leftinToIntTest = suite "leftinToInt"
   , defaultTest (assertEqual 13060 (leftinToInt 36 [ 28, 2, 10 ]))
   ]
 
+findRootsTest = suite "findRootsTest"
+  [ defaultTest (assertEqual [[1,0,0,0],[1,0,0,5]] (findRoots 10 [1,0,0,0] 2))
+  , defaultTest (assertEqual [[2,4,0,0],[2,4,0,5]] (findRoots 10 [8,8,0,4] 3))
+  ]
+
 -----------------
 -- overall test suite
 -----------------
@@ -98,6 +103,7 @@ tests = suite "Leftins Test Suite"
   , stringToLeftinTest
   , leftinToStringTest
   , leftinToIntTest
+  , findRootsTest
   ]
 
 main =

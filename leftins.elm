@@ -6,13 +6,14 @@
 
 module Leftins
   ( Leftin
-  , normalize, add, multiply, power
+  , normalize, add, multiply, power, findRoots
   , stringToLeftin, leftinToString, leftinToInt
   ) where
 
-import List exposing (map, map2, append, indexedMap, foldl)
+import List exposing (map, map2, append, indexedMap, foldl, filter, take, (::))
 import String exposing (toList, fromList, reverse)
 import Char exposing (toCode, fromCode, isDigit)
+import Maybe exposing (withDefault)
 
 
 -----------------
@@ -72,6 +73,32 @@ power : Int -> Leftin -> Int -> Leftin
 power base a n =
   let rawPower = powerRecurse a a n
   in normalize base rawPower 0
+
+
+-- try tacking each digit on to partial
+-- and return the list of leftins such that l^n = target
+tryDigit : Int -> Leftin -> Int -> Leftin -> List Leftin
+tryDigit base target n partial =
+  let attempts = map (\x -> append partial [x]) [0 .. base-1]
+  in filter (\x -> (power base x n == target)) attempts
+
+-- find all the possible roots with i digits,
+-- then recurse to try i+1 digits
+findRootsRecurse : Int -> Leftin -> Int -> List Leftin -> Int -> List Leftin
+findRootsRecurse base a n partials i =
+  let target = take i a
+      -- todo: use the entire list, not just the head
+      partial = withDefault [] (List.head partials)
+      newpartials = tryDigit base target n partial
+  in if i == List.length a
+    then newpartials
+    else findRootsRecurse base a n newpartials (i+1)
+
+-- find all of the nth roots of a
+findRoots : Int -> Leftin -> Int -> List Leftin
+findRoots base a n =
+  findRootsRecurse base a n [] 1
+
 
 -----------------
 -- conversion routines
