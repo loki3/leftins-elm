@@ -82,14 +82,18 @@ tryDigit base target n partial =
   let attempts = map (\x -> append partial [x]) [0 .. base-1]
   in filter (\x -> (power base x n == target)) attempts
 
+getRootList base target n partials i =
+  if i == 1
+  then tryDigit base target n []
+  else let all = map (tryDigit base target n) partials
+       in foldl append [] all
+
 -- find all the possible roots with i digits,
 -- then recurse to try i+1 digits
 findRootsRecurse : Int -> Leftin -> Int -> List Leftin -> Int -> List Leftin
 findRootsRecurse base a n partials i =
   let target = take i a
-      -- todo: use the entire list, not just the head
-      partial = withDefault [] (List.head partials)
-      newpartials = tryDigit base target n partial
+      newpartials = getRootList base target n partials i
   in if i == List.length a
     then newpartials
     else findRootsRecurse base a n newpartials (i+1)

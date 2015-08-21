@@ -87,8 +87,8 @@ leftinToIntTest = suite "leftinToInt"
   ]
 
 findRootsTest = suite "findRootsTest"
-  [ defaultTest (assertEqual [[1,0,0,0],[1,0,0,5]] (findRoots 10 [1,0,0,0] 2))
-  , defaultTest (assertEqual [[2,4,0,0],[2,4,0,5]] (findRoots 10 [8,8,0,4] 3))
+  [ defaultTest (assertEqual [[9,4,2,1],[9,4,2,6],[9,9,9,4],[9,9,9,9],[1,0,0,0],[1,0,0,5],[1,5,7,3],[1,5,7,8]] (findRoots 10 [1,0,0,0] 2))
+  , defaultTest (assertEqual [[2,4,5,2],[2,4,5,7],[2,4,0,0],[2,4,0,5]] (findRoots 10 [8,8,0,4] 3))
   ]
 
 -----------------
