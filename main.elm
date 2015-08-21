@@ -9,6 +9,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, targetValue)
 import StartApp
 import List
+import String
 import Leftins exposing (..)
 
 -----------------
@@ -28,6 +29,7 @@ type Action
   = None
   | Update1 String
   | Update2 String
+  | UpdateBase String
   | Add
   | Multiply
   | Power
@@ -42,6 +44,10 @@ model =
   , results = []
   , description = ""
   }
+
+-----------------
+-- support
+-----------------
 
 -- describe the operation and its results
 describeOne : Action -> Model -> Leftin -> String
@@ -64,6 +70,12 @@ describeAll a m results =
       b = "  (base " ++ toString m.base ++ ")"
   in case a of
     Root -> n2 ++ " -/ " ++ n2 ++ r ++ b
+
+toIntWithDefault : Int -> String -> Int
+toIntWithDefault default str =
+  case String.toInt str of
+    Ok value -> value
+    Err err -> default
 
 -----------------
 -- main
@@ -89,6 +101,11 @@ view address model =
         label [] [ text "b: ..." ]
       , input [ on "input" targetValue (Signal.message address << Update2) ] []
       ]
+    , div []
+      [
+        label [] [ text "base:" ]
+      , input [ on "input" targetValue (Signal.message address << UpdateBase) ] []
+      ]
     , div [] [ text model.description ]
     , div [] [ text (toString model) ]
     ]
@@ -97,6 +114,7 @@ update action model =
   case action of
     Update1 str -> { model | num1 <- stringToLeftin str }
     Update2 str -> { model | num2 <- stringToLeftin str }
+    UpdateBase str -> { model | base <- toIntWithDefault 10 str }
     Add ->
       let answer = add model.base model.num1 model.num2
       in { model | result <- answer
