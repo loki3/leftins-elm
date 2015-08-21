@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, targetValue)
 import StartApp
+import List
 import Leftins exposing (..)
 
 -----------------
@@ -18,7 +19,8 @@ type alias Model =
   { num1 : Leftin
   , num2 : Leftin
   , base : Int
-  , result : Leftin
+  , result : Leftin        -- when there's one result
+  , results : List Leftin  -- when there are mutliple results
   , description : String
   }
 
@@ -29,6 +31,7 @@ type Action
   | Add
   | Multiply
   | Power
+  | Root
 
 model : Model
 model =
@@ -36,12 +39,13 @@ model =
   , num2 = [ 5, 9, 6  ]
   , base = 10
   , result = []
+  , results = []
   , description = ""
   }
 
 -- describe the operation and its results
-describe : Action -> Model -> Leftin -> String
-describe a m result =
+describeOne : Action -> Model -> Leftin -> String
+describeOne a m result =
   let n1 = leftinToString m.num1
       n2 = leftinToString m.num2
       r = " = " ++ leftinToString result
@@ -51,6 +55,15 @@ describe a m result =
     Add -> n1 ++ " + " ++ n2 ++ r ++ b
     Multiply -> n1 ++ " * " ++ n2 ++ r ++ b
     Power -> n1 ++ " ^ " ++ n2 ++ r ++ b
+
+describeAll : Action -> Model -> List Leftin -> String
+describeAll a m results =
+  let n1 = leftinToString m.num1
+      n2 = leftinToString m.num2
+      r = " = " ++ toString (List.map leftinToString results)
+      b = "  (base " ++ toString m.base ++ ")"
+  in case a of
+    Root -> n2 ++ " -/ " ++ n2 ++ r ++ b
 
 -----------------
 -- main
@@ -65,6 +78,7 @@ view address model =
       button [ onClick address Add ] [ text "a + b" ]
     , button [ onClick address Multiply ] [ text "a * b" ]
     , button [ onClick address Power ] [ text "a ^ b" ]
+    , button [ onClick address Root ] [ text "b -/ a" ]
     , div []
       [
         label [] [ text "a: ..." ]
@@ -86,12 +100,16 @@ update action model =
     Add ->
       let answer = add model.base model.num1 model.num2
       in { model | result <- answer
-                 , description <- describe action model answer }
+                 , description <- describeOne action model answer }
     Multiply ->
       let answer = multiply model.base model.num1 model.num2
       in  { model | result <- answer
-                 , description <- describe action model answer }
+                 , description <- describeOne action model answer }
     Power ->
       let answer = power model.base model.num1 (leftinToInt model.base model.num2)
       in { model | result <- answer
-                 , description <- describe action model answer }
+                 , description <- describeOne action model answer }
+    Root ->
+      let answer = findRoots model.base model.num1 (leftinToInt model.base model.num2)
+      in { model | results <- answer
+                 , description <- describeAll action model answer }
