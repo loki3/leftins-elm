@@ -4,6 +4,8 @@
 -- https://github.com/loki3/leftins-elm
 -----------------
 
+module Main where
+
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, targetValue)

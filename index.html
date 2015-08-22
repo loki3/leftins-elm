@@ -9,18 +9,13 @@
 </head>
 
 <body>
+	<h1>Leftins Calculator</h1>
+	<div id="main" style="width:50%; height:400px;"></div>
 </body>
 
 <script type="text/javascript">
-	var sample = Elm.fullscreen(Elm.Leftins, null);
-	sample.ports.focus.subscribe(function(selector) {
-		setTimeout(function() {
-			var nodes = document.querySelectorAll(selector);
-			if (nodes.length === 1 && document.activeElement !== nodes[0]) {
-				nodes[0].focus()
-			}
-		}, 50);
-	});
+	var div = document.getElementById('main');
+	Elm.embed(Elm.Main, div);
 </script>
 
 </html>
