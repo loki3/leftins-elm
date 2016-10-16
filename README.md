@@ -4,4 +4,4 @@ See http://loki3.com/leftins/index.html for more information.
 # Requirements
 
 * Install Elm: http://elm-lang.org/
-* Compile with elm-make
+* Compile using 'elm-make main.elm'

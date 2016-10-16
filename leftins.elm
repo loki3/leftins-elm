@@ -4,11 +4,11 @@
 -- https://github.com/loki3/leftins-elm
 -----------------
 
-module Leftins
+module Leftins exposing
   ( Leftin
   , normalize, add, multiply, power, findRoots
   , stringToLeftin, leftinToString, leftinToInt
-  ) where
+  )
 
 import List exposing (map, map2, append, indexedMap, foldl, filter, take, (::))
 import String exposing (toList, fromList, reverse)
@@ -54,6 +54,7 @@ multiplyRecurse xs b prefix =
         let digitProduct = map ((*) x) b |> append prefix
             recurse = multiplyRecurse xend b (0 :: prefix)
         in map2 (+) digitProduct recurse
+    [] -> []
 -- multiply two leftins in a given base
 multiply : Int -> Leftin -> Leftin -> Leftin
 multiply base a b =
