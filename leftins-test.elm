@@ -2,9 +2,9 @@
 -- unit tests of the Leftins module
 -----------------
 
-import ElmTest.Test exposing (..)
-import ElmTest.Assertion exposing (..)
-import ElmTest.Runner.Element exposing (..)
+import Legacy.ElmTest exposing (..)
+import Test exposing (concat)
+import Test.Runner.Html
 import Leftins exposing (..)
 
 -----------------
@@ -95,7 +95,7 @@ findRootsTest = suite "findRootsTest"
 -- overall test suite
 -----------------
 
-tests = suite "Leftins Test Suite"
+main =
   [ normalizeTest
   , addTest
   , multiplyTest
@@ -105,6 +105,5 @@ tests = suite "Leftins Test Suite"
   , leftinToIntTest
   , findRootsTest
   ]
-
-main =
-  runDisplay tests
+    |> concat
+    |> Test.Runner.Html.run
