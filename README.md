@@ -10,4 +10,5 @@ See http://loki3.com/leftins/index.html for more information.
 For tests:
 * Install dependencies: 'elm package install rtfeldman/legacy-elm-test'
 * Run elm-reactor
-* Click on the test file
+* Load http://localhost:8000/ in a browser
+* Click on the test file, leftins-test.elm
