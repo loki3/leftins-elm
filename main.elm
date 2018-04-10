@@ -82,6 +82,8 @@ toIntWithDefault default str =
     Ok value -> value
     Err err -> default
 
+addPad = style [ ("padding", "10px") ]
+
 -----------------
 -- main
 -----------------
@@ -91,29 +93,34 @@ main =
 
 view : Model -> Html Msg
 view model =
-  div []
+  div [ addPad ]
     [
-      button [ onClick Add ] [ text "a + b" ]
-    , button [ onClick Multiply ] [ text "a * b" ]
+      h1 [] [ text "Leftins Calculator" ]
+    , p [] [ text "The following allows you to add or multiply two leftins, or apply an integer power or root." ]
+    , p [] [ text "You can specify any number base from 2 to 36. For number bases over 10, the digits above 9 are represented using the alphabet: a=10, b=11, ... , z=35." ]
+    , button [ onClick Add ] [ text "a + b" ]
+    , button [ onClick Multiply  ] [ text "a * b" ]
     , button [ onClick Power ] [ text "a ^ b" ]
     , button [ onClick Root ] [ text "b -/ a" ]
-    , div []
+    , div [ addPad ]
       [
-        label [] [ text "a: ..." ]
-      , input [ onInput Update1 ] []
+        label [ addPad ] [ text "a: ..." ]
+      , input [ onInput Update1, size 100 ] []
       ]
-    , div []
+    , div [ addPad ]
       [
-        label [] [ text "b: ..." ]
-      , input [ onInput Update2 ] []
+        label [ addPad ] [ text "b: ..." ]
+      , input [ onInput Update2, size 100 ] []
       ]
-    , div []
+    , div [ addPad ]
       [
-        label [] [ text "base:" ]
-      , input [ onInput UpdateBase ] []
+        label [ addPad ] [ text "base:" ]
+      , input [ onInput UpdateBase, size 5 ] []
       ]
     , div [] [ text model.description ]
-    , div [] [ text (toString model) ]
+    -- , div [] [ text (toString model) ]
+    , hr [] []
+    , a [ href "http://loki3.com/leftins" ] [ text "Leftins Main Page" ]
     ]
 
 update message model =
